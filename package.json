@@ -1,12 +1,13 @@
 {
-  "name": "network-base",
+  "name": "zy-http-base",
   "version": "1.0.0",
-  "description": "a wrapper for network parse based on axios in typescript ",
+  "description": "a wrapper for zywulian network parse based on axios in typescript ",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
     "build": "rm -rf dist/*; node_modules/webpack-cli/bin/webpack.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -r ts-node/register ./test/index.ts",
+    "server": "ts-node test/server/index.ts"
   },
   "repository": {
     "type": "git",
@@ -19,9 +20,24 @@
   },
   "homepage": "https://github.com/njleonzhang/network-base#readme",
   "devDependencies": {
+    "@types/chai": "^4.0.10",
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/mocha": "^2.2.44",
+    "@types/node": "^8.5.2",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^4.0.1",
     "ts-loader": "^4.0.0",
+    "ts-node": "^4.0.2",
     "typescript": "^2.7.2",
     "webpack": "^4.0.1",
     "webpack-cli": "^2.0.9"
+  },
+  "dependencies": {
+    "@types/koa-router": "^7.0.27",
+    "axios": "^0.18.0",
+    "koa": "^2.5.0",
+    "koa-router": "^7.4.0",
+    "web-cached-persistence": "^1.0.5"
   }
 }
