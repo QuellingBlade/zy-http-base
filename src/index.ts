@@ -1,14 +1,14 @@
 import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { INetworkBaseConfig } from "./NetworkBaseConfig"
+import { IHttpGlobalConfig } from "./HttpGlobalConfig"
 import { ZyWebRes } from "./ZyWebRes"
 import { ServerException } from "./ServerException"
 import { IHttpOptions } from "./HttpOptions"
 
 export default class HttpBase {
   serverFullPath: string
-  config: INetworkBaseConfig
+  config: IHttpGlobalConfig
 
-  constructor(config: INetworkBaseConfig) {
+  constructor(config: IHttpGlobalConfig) {
     this.config = config
     this.serverFullPath = config.serverPort
       ? `${config.serverBase}:${config.serverPort}/`
