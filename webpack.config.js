@@ -5,7 +5,7 @@ module.exports = {
   entry: "./src/index.ts",
   output: {
     filename: "./index.js",
-    libraryTarget: "umd"
+    libraryTarget: "commonjs",
   },
   resolve: {
     // Add `.ts` and `.tsx` as a resolvable extension.
