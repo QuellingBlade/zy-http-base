@@ -1,6 +1,6 @@
 {
   "name": "zy-http-base",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "a wrapper for zywulian network parse based on axios in typescript ",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
