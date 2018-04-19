@@ -217,4 +217,39 @@ describe('loading', () => {
         done()
       })
   })
+
+  it('global loading, local loading disable', function (done) {
+    let loadingShowMdg = ''
+    let loadingHideMdg = ''
+
+    const networkBase = new HttpBase(new HttpGlobalConfig(
+      'http://0.0.0.0',
+      '3000',
+      null,
+      5000,
+      null,
+      () => { return '1000' },
+      null,
+      {
+        show() {
+          console.log(logForShow)
+          loadingShowMdg += logForShow
+        },
+        hide() {
+          console.log(logForHide)
+          loadingHideMdg += logForHide
+        }
+      }
+    ))
+
+    networkBase.get('error/', {
+      loading: null
+    })
+      .catch(e => {
+        console.log(e)
+        loadingShowMdg.should.equals('')
+        loadingHideMdg.should.equals('')
+        done()
+      })
+  })
 })

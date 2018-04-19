@@ -3,6 +3,7 @@ import { IHttpGlobalConfig } from './HttpGlobalConfig'
 import { ZyWebRes } from './ZyWebRes'
 import { ServerException } from './ServerException'
 import { IHttpOptions } from './HttpOptions'
+import { ILoading } from './ILoading'
 
 export class HttpBase {
   serverFullPath: string
@@ -15,31 +16,33 @@ export class HttpBase {
       : `${config.serverBase}`
   }
 
-  showError(msg, showError) {
+  showError(msg: string, showError: (msg: string) => void) {
     if (showError) {
       showError(msg)
-    } else if (this.config.showError) {
+    } else if (showError === undefined && this.config.showError) {
       this.config.showError(msg)
     }
   }
 
-  showLoading(loading) {
+  showLoading(loading: ILoading) {
     if (loading && loading.show) {
       loading.show()
-    } else if (this.config.loading && this.config.loading.show) {
+    } else if ((loading === undefined || loading && loading.show === undefined)
+      && this.config.loading && this.config.loading.show) {
       this.config.loading.show()
     }
   }
 
-  hideLoading(loading) {
+  hideLoading(loading: ILoading) {
     if (loading && loading.hide) {
       loading.hide()
-    } else if (this.config.loading && this.config.loading.hide) {
+    } else if ((loading === undefined || loading && loading.show === undefined)
+      && this.config.loading && this.config.loading.hide) {
       this.config.loading.hide()
     }
   }
 
-  handleError(err, showError) {
+  handleError(err, showError: (msg: string) => void) {
     if (err instanceof ServerException) {
       // 服务器返回的逻辑错误
       this.showError(err.payload.msg, showError)

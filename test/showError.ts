@@ -82,4 +82,31 @@ describe('error', () => {
         }
       })
   })
+
+  it('global show error, local disable', function (done) {
+    let tmpMsg = ''
+
+    const networkBase = new HttpBase(new HttpGlobalConfig(
+      'http://0.0.0.0',
+      '3000',
+      null,
+      5000,
+      null,
+      () => { return '1000' },
+      (msg) => { tmpMsg = msg },
+      null,
+    ))
+
+    networkBase.get('error/', {
+      showError: null
+    })
+      .catch(e => {
+        try {
+          tmpMsg.should.equals('')
+          done()
+        } catch (e) {
+          done(e)
+        }
+      })
+  })
 })
