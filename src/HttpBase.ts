@@ -86,7 +86,7 @@ export class HttpBase {
   async httpBase<R, T>(method: string, url: string, data: R, options: IHttpOptions): Promise<T> {
     let httpOptions: AxiosRequestConfig = {
       method,
-      url: `${this.serverFullPath}${url}`,
+      url: `${this.serverFullPath}${url}${url.endsWith('/') ? '' : '/'}`,
       timeout: options.timeout || this.config.timeout || 5000,
       withCredentials: true,
       headers: {
