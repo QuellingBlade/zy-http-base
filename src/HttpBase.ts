@@ -83,6 +83,22 @@ export class HttpBase {
     })
   }
 
+  getToken(): Promise<string> {
+    let stringOrPromise = this.config.getToken()
+
+    return new Promise((resolve, reject) => {
+      if (stringOrPromise instanceof Promise) {
+        stringOrPromise.then((token: string) => {
+          resolve(token)
+        }, (err) => {
+          reject(err)
+        })
+      } else {
+        resolve(stringOrPromise)
+      }
+    })
+  }
+
   async httpBase<R, T>(method: string, url: string, data: R, options: IHttpOptions): Promise<T> {
     let httpOptions: AxiosRequestConfig = {
       method,
@@ -98,7 +114,13 @@ export class HttpBase {
 
     if (method === 'post') {
       httpOptions.data = data
-      httpOptions.headers['X-CSRFToken'] = this.config.getToken()
+
+      try {
+        let token = await this.getToken()
+        httpOptions.headers['X-CSRFToken'] = token
+      } catch(e) {
+        this.handleError(e, options.showError)
+      }
     }
 
     try {

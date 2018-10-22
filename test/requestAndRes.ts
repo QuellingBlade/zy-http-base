@@ -43,3 +43,29 @@ describe('request and response', function() {
     res1[0].id.should.equals('4615400127496508412')
   })
 })
+
+describe('getToken return promise', function() {
+  it('normal post request', async function () {
+    const networkBase =  new HttpBase(new HttpGlobalConfig(
+      'http://0.0.0.0',
+      '3000',
+      null,
+      5000,
+      null,
+      () => {
+        return new Promise(resolve => {
+          resolve('authToken')
+        })
+      },
+      null,
+      null
+    ))
+
+    let res = await networkBase.post<ILoginReq, ILoginRes>('user/login/', {
+      cellphone: '123423',
+      password: 'hello'
+    })
+
+    res.testData['x-csrftoken'].should.equals('authToken')
+  })
+})
