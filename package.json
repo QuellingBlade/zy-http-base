@@ -1,9 +1,9 @@
 {
   "name": "zy-http-base",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "a wrapper for zywulian network parse based on axios in typescript ",
   "main": "dist/index.js",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/types/src/index.d.ts",
   "scripts": {
     "build": "rm -rf dist/*; node_modules/webpack-cli/bin/webpack.js",
     "test": "mocha -r ts-node/register ./test/index.ts",
