@@ -8,6 +8,7 @@ export interface IHttpGlobalConfig {
   timeout: number
   handleServerError: (err: ServerException<any>) => void
   getToken: (() => string) | (() => Promise<string>)
+  tokenKey?: string
   showError: (msg: string) => void
   loading: ILoading
 }
@@ -19,6 +20,7 @@ export class HttpGlobalConfig implements IHttpGlobalConfig {
   timeout: number
   handleServerError: (err: ServerException<any>) => void
   getToken: (() => string) | (() => Promise<string>)
+  tokenKey: string
   showError: (msg: string) => void
   loading: ILoading
 
@@ -27,13 +29,15 @@ export class HttpGlobalConfig implements IHttpGlobalConfig {
               handleServerError: (err: ServerException<any>) => void,
               getToken: (() => string) | (() => Promise<string>),
               showError: (msg: string) => void,
-              loading: ILoading) {
+              loading: ILoading,
+              tokenKey: string = 'X-CSRFToken') {
     this.serverBase = serverBase
     this.serverPort = serverPort
     this.headers = headers
     this.timeout = timeout
     this.handleServerError = handleServerError
     this.getToken = getToken
+    this.tokenKey = tokenKey
     this.showError = showError
     this.loading = loading
   }

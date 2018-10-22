@@ -117,7 +117,7 @@ export class HttpBase {
 
       try {
         let token = await this.getToken()
-        httpOptions.headers['X-CSRFToken'] = token
+        httpOptions.headers[this.config.tokenKey] = token
       } catch(e) {
         this.handleError(e, options.showError)
       }
