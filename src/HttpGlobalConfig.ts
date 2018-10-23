@@ -1,44 +1,31 @@
 import { ServerException } from './ServerException'
 import { ILoading } from './ILoading'
 
+export type HeaderType = string | (() => string) | (() => Promise<string>)
+
+export interface Header {
+  get: HeaderType
+  key: string
+  postOnly?: boolean
+}
+
 export interface IHttpGlobalConfig {
   serverBase: string
   serverPort: string
-  headers: any
+  headers: Header[]
   timeout: number
   handleServerError: (err: ServerException<any>) => void
-  getToken: (() => string) | (() => Promise<string>)
-  tokenKey?: string
   showError: (msg: string) => void
   loading: ILoading
 }
 
 export class HttpGlobalConfig implements IHttpGlobalConfig {
-  serverBase: string
-  serverPort: string
-  headers: any
-  timeout: number
-  handleServerError: (err: ServerException<any>) => void
-  getToken: (() => string) | (() => Promise<string>)
-  tokenKey: string
-  showError: (msg: string) => void
-  loading: ILoading
-
-  constructor(serverBase: string, serverPort: string,
-              headers: any, timeout: number,
-              handleServerError: (err: ServerException<any>) => void,
-              getToken: (() => string) | (() => Promise<string>),
-              showError: (msg: string) => void,
-              loading: ILoading,
-              tokenKey: string = 'X-CSRFToken') {
-    this.serverBase = serverBase
-    this.serverPort = serverPort
-    this.headers = headers
-    this.timeout = timeout
-    this.handleServerError = handleServerError
-    this.getToken = getToken
-    this.tokenKey = tokenKey
-    this.showError = showError
-    this.loading = loading
-  }
+  constructor(
+    public serverBase: string,
+    public serverPort: string,
+    public headers: Header[],
+    public timeout: number,
+    public handleServerError: (err: ServerException<any>) => void,
+    public showError: (msg: string) => void,
+    public loading: ILoading) { }
 }

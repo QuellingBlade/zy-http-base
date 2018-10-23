@@ -1,5 +1,5 @@
 import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { IHttpGlobalConfig } from './HttpGlobalConfig'
+import { IHttpGlobalConfig, HeaderType } from './HttpGlobalConfig'
 import { ZyWebRes } from './ZyWebRes'
 import { ServerException } from './ServerException'
 import { IHttpOptions } from './HttpOptions'
@@ -83,8 +83,8 @@ export class HttpBase {
     })
   }
 
-  getToken(): Promise<string> {
-    let stringOrPromise = this.config.getToken()
+  getToken(getMethod: (() => string) | (() => Promise<string>)): Promise<string> {
+    let stringOrPromise = getMethod()
 
     return new Promise((resolve, reject) => {
       if (stringOrPromise instanceof Promise) {
@@ -107,20 +107,28 @@ export class HttpBase {
       withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
-        ...this.config.headers
       },
       params: options.params
     }
 
     if (method === 'post') {
       httpOptions.data = data
+    }
 
-      try {
-        let token = await this.getToken()
-        httpOptions.headers[this.config.tokenKey] = token
-      } catch(e) {
-        this.handleError(e, options.showError)
-      }
+    if (this.config.headers) {
+      await Promise.all(this.config.headers.map(async token => {
+        if ((token.postOnly && method === 'post') || !token.postOnly) {
+          try {
+            let tokenStr = token.get instanceof Function
+              ? await this.getToken(token.get)
+              : token.get
+
+            httpOptions.headers[token.key] = tokenStr
+          } catch(e) {
+            this.handleError(e, options.showError)
+          }
+        }
+      }))
     }
 
     try {

@@ -24,10 +24,13 @@ describe('request and response', function() {
     const networkBase = new HttpBase(new HttpGlobalConfig(
       'http://0.0.0.0',
       '3000',
-      null,
+      [{
+        key: 'x-csrftoken',
+        get: '1000',
+        postOnly: true
+      }],
       5000,
       null,
-      () => { return '1000' },
       null,
       null
     ))
@@ -49,14 +52,16 @@ describe('getToken return promise', function() {
     const networkBase =  new HttpBase(new HttpGlobalConfig(
       'http://0.0.0.0',
       '3000',
-      null,
+      [{
+        key: 'x-csrftoken',
+        get: () => {
+          return new Promise(resolve => {
+            resolve('csrftoken')
+          })
+        },
+      }],
       5000,
       null,
-      () => {
-        return new Promise(resolve => {
-          resolve('authToken')
-        })
-      },
       null,
       null
     ))
@@ -66,6 +71,8 @@ describe('getToken return promise', function() {
       password: 'hello'
     })
 
-    res.testData['x-csrftoken'].should.equals('authToken')
+    console.log(res)
+
+    res.testData['x-csrftoken'].should.equals('csrftoken')
   })
 })

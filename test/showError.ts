@@ -11,10 +11,7 @@ describe('error', () => {
       null,
       5000,
       null,
-      () => { return '1000' },
-      (msg) => {
-        tmpMsg = msg
-      },
+      (msg) => { tmpMsg = msg },
       null
     ))
 
@@ -38,9 +35,8 @@ describe('error', () => {
       null,
       5000,
       null,
-      () => { return '1000' },
       null,
-      null,
+      null
     ))
 
     networkBase.get('error/')
@@ -63,9 +59,8 @@ describe('error', () => {
       null,
       5000,
       null,
-      () => { return '1000' },
-      (msg) => { tmpMsg = msg },
       null,
+      null
     ))
 
     networkBase.get('error/', {
@@ -87,14 +82,13 @@ describe('error', () => {
     let tmpMsg = ''
 
     const networkBase = new HttpBase(new HttpGlobalConfig(
-      'http://0.0.0.0',
+        'http://0.0.0.0',
       '3000',
       null,
       5000,
       null,
-      () => { return '1000' },
       (msg) => { tmpMsg = msg },
-      null,
+      null
     ))
 
     networkBase.get('error/', {

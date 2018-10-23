@@ -15,7 +15,6 @@ describe('loading', () => {
       null,
       5000,
       null,
-      () => { return '1000' },
       null,
       {
         show() {
@@ -45,7 +44,6 @@ describe('loading', () => {
       null,
       5000,
       null,
-      () => { return '1000' },
       null,
       {
         show() {
@@ -56,7 +54,7 @@ describe('loading', () => {
           console.log(logForHide)
           loadingHideMdg = logForHide
         }
-      },
+      }
     ))
 
     networkBase.get('error/')
@@ -78,7 +76,6 @@ describe('loading', () => {
       null,
       5000,
       null,
-      () => { return '1000' },
       null,
       null
     ))
@@ -110,7 +107,6 @@ describe('loading', () => {
       null,
       5000,
       null,
-      () => { return '1000' },
       null,
       null
     ))
@@ -145,7 +141,6 @@ describe('loading', () => {
       null,
       5000,
       null,
-      () => { return '1000' },
       null,
       {
         show() {
@@ -184,7 +179,6 @@ describe('loading', () => {
       null,
       5000,
       null,
-      () => { return '1000' },
       null,
       {
         show() {
@@ -228,7 +222,6 @@ describe('loading', () => {
       null,
       5000,
       null,
-      () => { return '1000' },
       null,
       {
         show() {

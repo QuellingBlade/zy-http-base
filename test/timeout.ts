@@ -11,9 +11,6 @@ describe('test timeout', async function () {
       null,
       1000,
       null,
-      () => {
-        return '1000'
-      },
       null,
       null,
     ))
