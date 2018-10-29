@@ -5,7 +5,7 @@ import * as chai from 'chai'
 import * as chaiAsPromised from 'chai-as-promised'
 import './requestAndRes'
 import './timeout'
-import './showError'
+import './Error'
 import './showHideLoading'
 
 chai.use(chaiAsPromised)

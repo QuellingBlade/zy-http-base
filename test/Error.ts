@@ -103,4 +103,54 @@ describe('error', () => {
         }
       })
   })
+
+  it('server error handler', function (done) {
+    let tmpMsg = ''
+
+    const networkBase = new HttpBase(new HttpGlobalConfig(
+      'http://0.0.0.0',
+      '3000',
+      null,
+      5000,
+      (err) => { tmpMsg = err.payload.msg },
+      null,
+      null
+    ))
+
+    networkBase.get('error/')
+      .catch(e => {
+        try {
+          tmpMsg.should.equals('失败')
+          done()
+        } catch (e) {
+          done(e)
+        }
+      })
+  })
+
+  it('skip server error handler', function (done) {
+    let tmpMsg = ''
+
+    const networkBase = new HttpBase(new HttpGlobalConfig(
+      'http://0.0.0.0',
+      '3000',
+      null,
+      5000,
+      (err) => { tmpMsg = err.payload.msg },
+      null,
+      null
+    ))
+
+    networkBase.get('error/', {
+      skipServerErrorHandler: true
+    })
+      .catch(e => {
+        try {
+          tmpMsg.should.equals('')
+          done()
+        } catch (e) {
+          done(e)
+        }
+      })
+  })
 })

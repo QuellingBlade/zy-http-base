@@ -42,11 +42,13 @@ export class HttpBase {
     }
   }
 
-  handleError(err, showError: (msg: string) => void) {
+  handleError(err, showError: (msg: string) => void, skipServerErrorHandler: boolean) {
     if (err instanceof ServerException) {
       // 服务器返回的逻辑错误
       this.showError(err.payload.msg, showError)
-      this.config.handleServerError && this.config.handleServerError(err)
+      !skipServerErrorHandler
+        && this.config.handleServerError
+        && this.config.handleServerError(err)
       throw err
     }
 
@@ -100,6 +102,8 @@ export class HttpBase {
   }
 
   async httpBase<R, T>(method: string, url: string, data: R, options: IHttpOptions): Promise<T> {
+    options.skipServerErrorHandler = options.skipServerErrorHandler || false
+
     let httpOptions: AxiosRequestConfig = {
       method,
       url: `${this.serverFullPath}${url}${url.endsWith('/') ? '' : '/'}`,
@@ -125,7 +129,7 @@ export class HttpBase {
 
             httpOptions.headers[token.key] = tokenStr
           } catch(e) {
-            this.handleError(e, options.showError)
+            this.handleError(e, options.showError, options.skipServerErrorHandler)
           }
         }
       }))
@@ -141,7 +145,7 @@ export class HttpBase {
       }
       return data
     } catch (err) {
-      this.handleError(err, options.showError)
+      this.handleError(err, options.showError, options.skipServerErrorHandler)
     } finally {
       this.hideLoading(options.loading)
     }
